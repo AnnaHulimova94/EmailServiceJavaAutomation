@@ -95,7 +95,7 @@ public class ProtonMailMainPage extends AbstractPage {
     public ProtonMailAuthPage logOut() {
         actionSelect.click();
 
-        new WebDriverWait(driver, Duration.ofSeconds(5))
+        new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.visibilityOf(logOutButton))
                 .click();
 
@@ -103,7 +103,7 @@ public class ProtonMailMainPage extends AbstractPage {
     }
 
     public WebElement getReceivedEmail(int index) {
-        new WebDriverWait(driver, Duration.ofSeconds(10))
+        new WebDriverWait(driver, Duration.ofSeconds(20))
                 .until(ExpectedConditions.visibilityOfAllElements(receivedEmailList));
 
         return receivedEmailList.get(index);

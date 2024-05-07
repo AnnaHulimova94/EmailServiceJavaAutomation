@@ -1,25 +1,29 @@
 package tests;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.ITestResult;
+import org.testng.annotations.*;
 import pages.ProtonMailAuthPage;
 import util.ConfigProvider;
+import util.ScreenShotMaker;
 
 public class ProtonMailAuthTest {
 
     private WebDriver chromeDriver;
 
-    @Before
+    @BeforeMethod
     public void setUp() {
         chromeDriver = new ChromeDriver();
     }
 
-    @After
-    public void shutDown() {
+    @AfterMethod
+    public void shutDown(ITestResult result) {
+        if (result.getStatus() == ITestResult.FAILURE) {
+            ScreenShotMaker.takeScreenshot(chromeDriver, result.getMethod().getMethodName());
+        }
+
         chromeDriver.quit();
     }
 
