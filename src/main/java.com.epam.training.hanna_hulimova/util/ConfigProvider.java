@@ -29,6 +29,8 @@ public interface ConfigProvider {
 
     String SUBJECT_FOR_EMAIL = config.getString("subject_for_email");
 
+    String BROWSER = config.getString("browser");
+
     static Config readConfig() {
         return ConfigFactory.systemProperties().hasPath("testProfile")
                 ? ConfigFactory.load(ConfigFactory.systemProperties().getString("testProfile"))

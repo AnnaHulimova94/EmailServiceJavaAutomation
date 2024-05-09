@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="Parallel Test Suite" parallel="classes" thread-count="2">
-    <test name="Parallel Test" >
+<suite name="ProtonTests">
+    <test name="Regression Firefox">
+        <parameter name="environment" value="firefox"/>
+        <classes>
+            <class name="tests.ProtonMailAuthTest"/>
+            <class name="tests.ProtonMailMessageSenderTest"/>
+        </classes>
+    </test>
+    <test name="Regression Chrome">
+        <parameter name="environment" value="chrome"/>
         <classes>
             <class name="tests.ProtonMailAuthTest"/>
             <class name="tests.ProtonMailMessageSenderTest"/>

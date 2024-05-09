@@ -1,15 +1,19 @@
 package pages;
 
-import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import util.CustomConditions;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class ProtonMailMainPage extends AbstractPage {
 
@@ -49,8 +53,11 @@ public class ProtonMailMainPage extends AbstractPage {
     @FindBy(xpath = "//span[text()='Message sent.']")
     private WebElement messageSendNotification;
 
-    @FindAll(@FindBy(xpath = "//div[@data-shortcut-target='item-container-wrapper']//div[@data-shortcut-target='item-container']"))
+    @FindAll(@FindBy(xpath = "//div[@data-shortcut-target='item-container']"))
     private List<WebElement> receivedEmailList;
+
+    @FindBy(xpath = "//article[@data-testid='message-view-2']//span[@data-testid='recipient-label']")
+    private WebElement messageSender;
 
     private static final String UNREAD_MESSAGE_STYLE = "unread";
 
@@ -59,7 +66,7 @@ public class ProtonMailMainPage extends AbstractPage {
     }
 
     public ProtonMailMainPage waitUntilInboxIsReady() {
-        new WebDriverWait(driver, Duration.ofSeconds(10))
+        new WebDriverWait(driver, Duration.ofSeconds(20))
                 .until(ExpectedConditions.urlContains("/inbox"));
 
         return this;
@@ -103,15 +110,15 @@ public class ProtonMailMainPage extends AbstractPage {
     }
 
     public WebElement getReceivedEmail(int index) {
-        new WebDriverWait(driver, Duration.ofSeconds(20))
-                .until(ExpectedConditions.visibilityOfAllElements(receivedEmailList));
+        Wait<WebDriver> wait = new FluentWait<>(driver)
+                .withTimeout(Duration.ofSeconds(30))
+                .pollingEvery(Duration.ofSeconds(3))
+                .ignoring(NoSuchElementException.class)
+                .ignoring(StaleElementReferenceException.class);
 
-        return receivedEmailList.get(index);
-    }
-
-    public static String getMessageSender(WebElement webElement) {
-        return webElement.findElement(By.xpath(".//span[@data-testid='message-column:sender-address']//span//span"))
-                .getText();
+        return wait
+                .until(ExpectedConditions.visibilityOfAllElements(receivedEmailList))
+                .get(index);
     }
 
     public static boolean isMessageUnread(WebElement webElement) {
@@ -122,6 +129,13 @@ public class ProtonMailMainPage extends AbstractPage {
         webElement.click();
 
         return this;
+    }
+
+    public String getMessageSender() {
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(CustomConditions.elementHasText(messageSender));
+
+        return messageSender.getText();
     }
 
     public String getMessageText() {

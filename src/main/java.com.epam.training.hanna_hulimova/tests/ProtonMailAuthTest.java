@@ -1,53 +1,31 @@
 package tests;
 
+import driver.DriverSingleton;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
-import org.testng.ITestResult;
+import org.testng.ITestContext;
 import org.testng.annotations.*;
 import pages.ProtonMailAuthPage;
 import util.ConfigProvider;
-import util.ScreenShotMaker;
+import util.TestListener;
 
+@Listeners(TestListener.class)
 public class ProtonMailAuthTest {
 
-    private WebDriver chromeDriver;
+    private WebDriver driver;
 
     @BeforeMethod
-    public void setUp() {
-        chromeDriver = new ChromeDriver();
+    public void setUp(ITestContext context) {
+        driver = DriverSingleton.getDriver(context);
     }
 
     @AfterMethod
-    public void shutDown(ITestResult result) {
-        if (result.getStatus() == ITestResult.FAILURE) {
-            ScreenShotMaker.takeScreenshot(chromeDriver, result.getMethod().getMethodName());
-        }
-
-        chromeDriver.quit();
-    }
-
-    @Test
-    public void test_proton_mail_successful_auth() {
-        test_proton_mail_successful_auth(chromeDriver);
-    }
-
-    @Test
-    public void test_proton_mail_auth_response_with_incorrect_password() {
-        test_proton_mail_auth_response_with_incorrect_password(chromeDriver);
-    }
-
-    @Test
-    public void test_proton_mail_auth_response_with_incorrect_email() {
-        test_proton_mail_auth_response_with_incorrect_email(chromeDriver);
+    public void shutDown() {
+        DriverSingleton.closeDriver();
     }
 
     @Test
     public void test_proton_mail_auth_response_with_empty_data() {
-        test_proton_mail_auth_response_with_empty_data(chromeDriver);
-    }
-
-    private void test_proton_mail_auth_response_with_empty_data(WebDriver driver) {
         ProtonMailAuthPage protonMailAuthPage = new ProtonMailAuthPage(driver)
                 .openPage()
                 .setEnglishLocalization();
@@ -58,7 +36,8 @@ public class ProtonMailAuthTest {
         Assert.assertEquals(ConfigProvider.FIELD_IS_REQUIRED_MESSAGE, protonMailAuthPage.getPasswordIsRequiredMessage());
     }
 
-    private void test_proton_mail_auth_response_with_incorrect_email(WebDriver driver) {
+    @Test
+    public void test_proton_mail_auth_response_with_incorrect_email() {
         ProtonMailAuthPage protonMailAuthPage = new ProtonMailAuthPage(driver)
                 .openPage()
                 .setEnglishLocalization();
@@ -67,7 +46,8 @@ public class ProtonMailAuthTest {
         Assert.assertEquals(ConfigProvider.EMAIL_DOES_NOT_EXIST_MESSAGE, protonMailAuthPage.getErrorMessage());
     }
 
-    private void test_proton_mail_auth_response_with_incorrect_password(WebDriver driver) {
+    @Test
+    public void test_proton_mail_auth_response_with_incorrect_password() {
         ProtonMailAuthPage protonMailAuthPage = new ProtonMailAuthPage(driver)
                 .openPage()
                 .setEnglishLocalization();
@@ -76,7 +56,8 @@ public class ProtonMailAuthTest {
         Assert.assertEquals(ConfigProvider.PASSWORD_IS_INCORRECT_MESSAGE, protonMailAuthPage.getErrorMessage());
     }
 
-    private void test_proton_mail_successful_auth(WebDriver driver) {
+    @Test
+    public void test_proton_mail_successful_auth() {
         new ProtonMailAuthPage(driver)
                 .openPage()
                 .login(ConfigProvider.PROTON_MAIL_LOGIN_FIRST_ACCOUNT, ConfigProvider.PROTON_MAIL_PASSWORD_FIRST_ACCOUNT)
