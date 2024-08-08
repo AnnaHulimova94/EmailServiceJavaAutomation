@@ -1,4 +1,4 @@
-package pages;
+package com.hulimova.pages;
 
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import util.CustomConditions;
+import com.hulimova.util.CustomConditions;
 
 import java.time.Duration;
 import java.util.List;

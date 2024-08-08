@@ -1,4 +1,4 @@
-package util;
+package com.hulimova.util;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;

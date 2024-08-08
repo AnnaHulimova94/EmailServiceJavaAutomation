@@ -1,15 +1,15 @@
-package tests;
+package com.hulimova.tests;
 
-import driver.DriverSingleton;
+import com.hulimova.driver.DriverSingleton;
+import com.hulimova.pages.ProtonMailAuthPage;
+import com.hulimova.pages.ProtonMailMainPage;
+import com.hulimova.util.ConfigProvider;
+import com.hulimova.util.TestListener;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.annotations.*;
-import pages.ProtonMailAuthPage;
-import pages.ProtonMailMainPage;
-import util.ConfigProvider;
-import util.TestListener;
 
 @Listeners(TestListener.class)
 public class ProtonMailMessageSenderTest {

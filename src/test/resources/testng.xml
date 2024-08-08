@@ -4,15 +4,15 @@
     <test name="Regression Firefox">
         <parameter name="environment" value="firefox"/>
         <classes>
-            <class name="tests.ProtonMailAuthTest"/>
-            <class name="tests.ProtonMailMessageSenderTest"/>
+            <class name="com.hulimova.tests.ProtonMailAuthTest"/>
+            <class name="com.hulimova.tests.ProtonMailMessageSenderTest"/>
         </classes>
     </test>
     <test name="Regression Chrome">
         <parameter name="environment" value="chrome"/>
         <classes>
-            <class name="tests.ProtonMailAuthTest"/>
-            <class name="tests.ProtonMailMessageSenderTest"/>
+            <class name="com.hulimova.tests.ProtonMailAuthTest"/>
+            <class name="com.hulimova.tests.ProtonMailMessageSenderTest"/>
         </classes>
     </test>
 </suite>

@@ -1,6 +1,6 @@
-package util;
+package com.hulimova.util;
 
-import driver.DriverSingleton;
+import com.hulimova.driver.DriverSingleton;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
